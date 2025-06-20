@@ -1,0 +1,105 @@
+body {
+  font-family: "Inter", sans-serif;
+}
+
+.diagram-container {
+  border: 1px solid #ccc;
+  height: 400px;
+  width: 100%;
+  border-radius: 0.5rem;
+  overflow: auto;
+  background-color: #fff;
+}
+
+.chat-messages {
+  height: 300px;
+  overflow-y: auto;
+  background-color: #f8fafc;
+  /* Tailwind bg-slate-50 */
+  border-radius: 0.5rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.message {
+  max-width: 80%;
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  word-wrap: break-word;
+}
+
+.bot-message {
+  background-color: #e0f2fe;
+  /* Tailwind blue-100 */
+  align-self: flex-start;
+}
+
+.user-message {
+  background-color: #bfdbfe;
+  /* Tailwind blue-200 */
+  align-self: flex-end;
+}
+
+/* Custom modal for alerts */
+.modal {
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1000;
+  /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black w/ opacity */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Highlight for active BPMN element */
+.highlight .djs-visual > :nth-child(1) {
+  stroke: #3b82f6 !important;
+  /* Tailwind blue-500 */
+  stroke-width: 3px !important;
+  fill: #bfdbfe !important;
+  /* Tailwind blue-200 */
+}
