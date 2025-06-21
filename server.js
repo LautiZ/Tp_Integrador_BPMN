@@ -3,7 +3,7 @@ import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import sqlite3 from "sqlite3";
 import { initDb } from "./src/utils/initDb.js";
-import { all } from "./src/utils/db.js";
+import { all, run } from "./src/utils/db.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -36,6 +36,21 @@ app.get("/api/habitaciones-disponibles", async (req, res) => {
     );
     console.log("Resultado:", disponibles);
     res.json(disponibles);
+  } catch (err) {
+    console.error("Error en consulta SQL:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/reservar-habitacion/:id", async (req, res) => {
+  try {
+    let id = req.params.id;
+    const respuesta = await run(
+      "UPDATE habitaciones SET ocupada = 1 WHERE id = ? ",
+      [id]
+    );
+    console.log("Resultado:", respuesta);
+    res.json(respuesta);
   } catch (err) {
     console.error("Error en consulta SQL:", err);
     res.status(500).json({ error: err.message });

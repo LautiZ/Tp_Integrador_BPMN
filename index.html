@@ -7,8 +7,10 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap"
       rel="stylesheet"
     />
     <!-- bpmn-js library - Changed to bpmn-navigated-viewer for built-in zoom and pan -->
@@ -16,58 +18,71 @@
     <link rel="stylesheet" href="style.css" />
   </head>
 
-  <body
-    class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen p-6 text-gray-800"
-  >
-    <div class="container mx-auto p-6 bg-white rounded-lg shadow-xl">
-      <h1 class="text-3xl font-bold text-center text-blue-700 mb-8">
-        Visualizador y Chatbot BPMN
+  <body class="bg-gray-100 min-h-screen p-6 text-gray-800">
+    <div class="container mx-auto p-6">
+      <h1 class="text-3xl font-bold text-center text-gray-500 mb-8">
+        Chatbot con BPMN
       </h1>
-
-      <!-- BPMN Visualizer Section -->
-      <div class="mb-10 p-6 bg-blue-50 rounded-lg shadow-inner">
-        <h2 class="text-2xl font-semibold text-blue-600 mb-4">
-          Visualizador de Diagramas BPMN
-        </h2>
-        <div id="diagram-viewer" class="diagram-container mt-4"></div>
-      </div>
-
-      <!-- Chatbot Section -->
-      <div class="p-6 bg-green-50 rounded-lg shadow-inner">
-        <h2 class="text-2xl font-semibold text-green-700 mb-4">
-          Chatbot Basado en BPMN
-        </h2>
-        <div id="chat-messages" class="chat-messages">
-          <!-- Chat messages will appear here -->
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
+        <!-- BPMN Visualizer Section -->
+        <div
+          class="mb-10 p-6 bg-gray-50 shadow-md rounded-[.2vw] h-[550px] col-span-2"
+        >
+          <h2 class="text-2xl font-semibold text-gray-400 mb-4">
+            Diagramas BPMN
+          </h2>
+          <div id="diagram-viewer" class="diagram-container mt-4"></div>
+          <p class="text-xs text-gray-400 mt-5">
+            Nota: Hacer click en el diagrama para poder verlo mas comodamente.
+            Con ctrl + zoom podes agrandar o achicar el mismo para su mejor
+            visualizacion.
+          </p>
         </div>
-        <div class="mt-4 flex gap-2">
-          <input
-            type="text"
-            id="user-input"
-            class="flex-grow p-3 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
-            placeholder="Escriba su mensaje..."
-            disabled
-          />
-          <button
-            id="send-button"
-            onclick="sendButtonClick()"
-            class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md shadow-md transition-all duration-300 transform hover:scale-105"
-            disabled
-          >
-            Enviar
-          </button>
-          <button
-            onclick="startChatClick()"
-            class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-md shadow-md transition-all duration-300 transform hover:scale-105"
-          >
-            Iniciar Chat
-          </button>
+        <!-- Chatbot Section -->
+        <div
+          class="p-6 bg-gray-50 shadow-md rounded-[.2vw] h-[550px] flex flex-col"
+        >
+          <h2 class="text-2xl font-semibold text-gray-400 mb-4">
+            Chatbot Basado en BPMN
+          </h2>
+          <div class="flex-1 flex flex-col">
+            <div
+              id="chat-messages"
+              class="chat-messages border-2 border-gray-200"
+            >
+              <!-- Chat messages will appear here -->
+            </div>
+            <div class="mt-4 flex gap-2">
+              <input
+                type="text"
+                id="user-input"
+                class="flex-grow p-3 border-2 border-red-300 rounded-md focus:outline-none focus:border-gray-400 bg-red-50"
+                placeholder="Escriba su mensaje..."
+                disabled
+              />
+              <button
+                id="send-button"
+                onclick="sendButtonClick()"
+                class="bg-gray-100 border-2 border-gray-200 hover:bg-gray-200 text-gray-500 font-bold py-2 px-4 rounded-[.2vw] shadow-md transition-all duration-300"
+                disabled
+              >
+                Enviar
+              </button>
+              <button
+                onclick="startChatClick()"
+                class="bg-gray-100 border-2 border-purple-200 hover:bg-purple-200 text-gray-500 font-bold py-2 px-4 rounded-[.2vw] shadow-md transition-all duration-300"
+              >
+                Iniciar Chat
+              </button>
+            </div>
+          </div>
+          <p class="text-xs text-gray-400 mt-5">
+            Nota: Este chatbot simula un flujo conversacional basado en el
+            diagrama BPMN de la izquierda. Podras ir viendo el paso a paso en el
+            mismo. Para las compuertas, le pedirá opciones de acuerdo a los
+            nombres de los flujos.
+          </p>
         </div>
-        <p class="text-sm text-gray-600 mt-2">
-          Nota: Este chatbot simula un flujo conversacional basado en el
-          diagrama BPMN cargado. Para las tareas, anunciará el paso. Para las
-          compuertas, le pedirá opciones de acuerdo a los nombres de los flujos.
-        </p>
       </div>
     </div>
 

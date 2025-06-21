@@ -62,14 +62,6 @@ function addMessage(sender, text) {
     messageDiv.classList.add("user-message");
   }
 
-  // if (sender === "bot" && text === "Responda con un numero") {
-  //   banderaEleccion = true;
-  // }
-
-  // if (banderaEleccion && sender === "user" && text) {
-  //   habitacionElegida = text;
-  //   console.log("HABITACION ELEGIDA: ", habitacionElegida);
-  // }
   messageDiv.textContent = text;
   chatMessagesDiv.appendChild(messageDiv);
   chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight; // Desplazamiento automático al final
@@ -196,8 +188,18 @@ async function parseBPMN(xml) {
 async function obtenerHabitacionesDisponibles() {
   const res = await fetch("/api/habitaciones-disponibles");
   const habitaciones = await res.json();
-  console.log("HABITACIONES: ", habitaciones);
   return habitaciones;
+}
+
+async function reservarHabitacion(id) {
+  const res = await fetch(
+    `http://localhost:3000/api/reservar-habitacion/${id}`,
+    {
+      method: "POST",
+    }
+  );
+  const respuesta = await res.json();
+  return respuesta;
 }
 
 // Simula el progreso del chatbot a través del diagrama BPMN
@@ -237,7 +239,6 @@ async function proceedChat(userInputText = "") {
         habitacionesDisponibles = await obtenerHabitacionesDisponibles();
         nextElementId = currentElement.outgoing[0]?.target;
       } else if (currentElement.name === "Enviar información al cliente") {
-        console.log("HABITACIONES DISPONIBLES: ", habitacionesDisponibles);
         botMessage = `
             Habitaciones disponibles:\n
             ${habitacionesDisponibles.map((choice) => {
@@ -249,15 +250,14 @@ async function proceedChat(userInputText = "") {
         botMessage = "Que habitacion desea reservar?";
         nextElementId = currentElement.outgoing[0]?.target;
       } else if (currentElement.name === "Confirmar reserva") {
-        botMessage += `⚠️
+        botMessage = `🔥 Confirmar reserva, 
           La habitacion seleccionada fue la nro ${habitacionElegida.id} y es una ${habitacionElegida.descripcion}
         `;
         nextElementId = currentElement.outgoing[0]?.target;
-      } else if (
-        currentElement.name === "Base de datos (búsqueda de la encomienda)"
-      ) {
-        botMessage =
-          "Realizando búsqueda en la base de datos con el número de seguimiento proporcionado...";
+      } else if (currentElement.name === "Creacion de la reserva") {
+        botMessage = "Creando la reserva en la base de datos...";
+        await reservarHabitacion(habitacionElegida.id);
+        nextElementId = currentElement.outgoing[0]?.target;
         // No user input expected immediately here, it's a processing step
         // The result will be handled in handleUserInput after the "search" is "done"
         // For a real async operation, you'd show a loading state here and then proceed.
@@ -356,6 +356,10 @@ async function proceedChat(userInputText = "") {
   if (expectsUserInput) {
     userInput.disabled = false;
     sendButton.disabled = false;
+    userInput.classList.remove("border-red-300");
+    userInput.classList.add("border-gray-300");
+    userInput.classList.remove("bg-red-50");
+    userInput.classList.add("bg-gray-50");
   } else if (nextElementId) {
     // If no user input is expected, automatically proceed to the next element
     setTimeout(() => {
@@ -381,13 +385,16 @@ async function handleUserInput() {
   userInput.value = ""; // Clear input field
 
   userInput.disabled = true;
+  userInput.classList.remove("border-gray-300");
+  userInput.classList.remove("bg-white");
+  userInput.classList.add("border-red-300");
+  userInput.classList.add("bg-red-50");
   sendButton.disabled = true;
 
   const userLower = userText.toLowerCase();
 
   let nextFlow = null;
   const possibleFlows = currentElement.outgoing;
-  console.log("POSIBLE FLOWS ", possibleFlows);
   // Existing logic for other gateways and tasks
   if (
     currentElement.type === "exclusiveGateway" ||
@@ -428,12 +435,7 @@ async function handleUserInput() {
         nextFlow = flow;
         break;
       }
-      console.log(typeof habitacionesDisponibles);
-      console.log(habitacionesDisponibles);
-      console.log(
-        "SELECCION DE USUARIO: ",
-        habitacionesDisponibles[userLower - 1]
-      );
+
       // Handle 'listo' for intermediate catch events
       if (
         currentElement.type === "intermediateCatchEvent" &&
@@ -500,6 +502,10 @@ async function handleUserInput() {
           // This 'Id_c72c6ce3-757a-4b93-a055-4cc2f27e1caf' is still a hardcoded ID
           currentElement = elements["Id_c72c6ce3-757a-4b93-a055-4cc2f27e1caf"]; // Return to the request task
           userInput.disabled = false;
+          userInput.classList.remove("bg-red-50");
+          userInput.classList.add("bg-gray-50");
+          userInput.classList.remove("border-red-300");
+          userInput.classList.add("border-gray-300");
           sendButton.disabled = false;
           return; // Wait for new input
         }
@@ -538,7 +544,6 @@ async function handleUserInput() {
         possibleChoices = habitacionesDisponibles.map((choice) => {
           return `habitacion ${choice.id}`;
         });
-        console.log("Posible choices: ", possibleChoices);
       }
 
       addMessage(
@@ -548,6 +553,10 @@ async function handleUserInput() {
         )}.`
       );
       userInput.disabled = false; // Enable input again
+      userInput.classList.remove("border-red-300");
+      userInput.classList.add("border-gray-300");
+      userInput.classList.remove("bg-red-50");
+      userInput.classList.add("bg-gray-50");
       sendButton.disabled = false;
     }
   } else if (
@@ -677,6 +686,10 @@ function sendButtonClick() {
 function endChat() {
   isChatActive = false;
   userInput.disabled = true;
+  userInput.classList.remove("border-gray-300");
+  userInput.classList.remove("bg-white");
+  userInput.classList.add("border-red-300");
+  userInput.classList.add("bg-red-50");
   sendButton.disabled = true;
   startChatButton.disabled = false;
   currentElement = null;

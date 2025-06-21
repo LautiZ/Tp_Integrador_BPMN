@@ -1,5 +1,5 @@
 body {
-  font-family: "Inter", sans-serif;
+  font-family: "Oxanium", sans-serif;
 }
 
 .diagram-container {
@@ -14,7 +14,7 @@ body {
 .chat-messages {
   height: 300px;
   overflow-y: auto;
-  background-color: #f8fafc;
+  background-color: #fff;
   /* Tailwind bg-slate-50 */
   border-radius: 0.5rem;
   padding: 1rem;
@@ -24,6 +24,7 @@ body {
 }
 
 .message {
+  font-size: small;
   max-width: 80%;
   padding: 0.75rem 1rem;
   border-radius: 1rem;
@@ -31,7 +32,7 @@ body {
 }
 
 .bot-message {
-  background-color: #e0f2fe;
+  background-color: #dddddd;
   /* Tailwind blue-100 */
   align-self: flex-start;
 }
@@ -97,9 +98,9 @@ body {
 
 /* Highlight for active BPMN element */
 .highlight .djs-visual > :nth-child(1) {
-  stroke: #3b82f6 !important;
+  stroke: #a23bf6 !important;
   /* Tailwind blue-500 */
   stroke-width: 3px !important;
-  fill: #bfdbfe !important;
+  fill: rgba(162, 59, 246, 0.7) !important;
   /* Tailwind blue-200 */
 }

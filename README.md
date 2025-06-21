@@ -1,17 +1,32 @@
-# Proyecto Node.js + Express
+# Trabajo integrador programacion 1
 
-Este proyecto sirve el archivo `index.html` usando Express.
+Comision 9
+Integrantes:
 
-## Instalación
+- Lautaro Zullo
+- Ignacio Salazar
+- Walter Verdun
+
+## Levantar el proyecto
+
+Clonar el repositorio:
+
+```bash
+  git clone https://github.com/LautiZ/Tp_Integrador_BPMN.git
+```
+
+Instalacion de dependencias:
 
 ```bash
 npm install
 ```
 
-## Ejecución
+### Ejecución
+
+Comando para ejecutar el proyecto
 
 ```bash
-npm start
+npm run dev
 ```
 
 El servidor estará disponible en [http://localhost:3000](http://localhost:3000)
