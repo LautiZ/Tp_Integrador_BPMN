@@ -29,4 +29,4 @@ Comando para ejecutar el proyecto
 npm run dev
 ```
 
-El servidor estará disponible en [http://localhost:3000](http://localhost:3000)
+El proyecto estará disponible en este link [http://localhost:3000](http://localhost:3000)
