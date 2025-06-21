@@ -34,7 +34,6 @@ app.get("/api/habitaciones-disponibles", async (req, res) => {
     const disponibles = await all(
       "SELECT * FROM habitaciones WHERE ocupada = 0"
     );
-    console.log("Resultado:", disponibles);
     res.json(disponibles);
   } catch (err) {
     console.error("Error en consulta SQL:", err);
@@ -49,7 +48,6 @@ app.post("/api/reservar-habitacion/:id", async (req, res) => {
       "UPDATE habitaciones SET ocupada = 1 WHERE id = ? ",
       [id]
     );
-    console.log("Resultado:", respuesta);
     res.json(respuesta);
   } catch (err) {
     console.error("Error en consulta SQL:", err);

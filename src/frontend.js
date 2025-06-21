@@ -58,11 +58,12 @@ function addMessage(sender, text) {
   messageDiv.classList.add("message");
   if (sender === "bot") {
     messageDiv.classList.add("bot-message");
+    messageDiv.innerHTML = text;
   } else {
     messageDiv.classList.add("user-message");
+    messageDiv.textContent = text;
   }
 
-  messageDiv.textContent = text;
   chatMessagesDiv.appendChild(messageDiv);
   chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight; // Desplazamiento automático al final
 }
@@ -223,7 +224,7 @@ async function proceedChat(userInputText = "") {
 
   switch (currentElement.type) {
     case "startEvent":
-      botMessage = `¡Hola!`;
+      botMessage = `Buen dia! 👋`;
       nextElementId = currentElement.outgoing[0]?.target;
       break;
 
@@ -239,11 +240,18 @@ async function proceedChat(userInputText = "") {
         habitacionesDisponibles = await obtenerHabitacionesDisponibles();
         nextElementId = currentElement.outgoing[0]?.target;
       } else if (currentElement.name === "Enviar información al cliente") {
+        botMessage = `Habitaciones disponibles:
+            <ul>
+              ${habitacionesDisponibles
+                .map((choice) => {
+                  return `<li>💠 ${choice.id} | ${choice.descripcion}</li>`;
+                })
+                .join("")}
+            </ul>`;
+        nextElementId = currentElement.outgoing[0]?.target;
+      } else if (currentElement.name === "Quiere reservar?") {
         botMessage = `
-            Habitaciones disponibles:\n
-            ${habitacionesDisponibles.map((choice) => {
-              return ` ${choice.id}`;
-            })}
+          Bienvenido/a a la app de reserva de habitaciones.
         `;
         nextElementId = currentElement.outgoing[0]?.target;
       } else if (currentElement.name === "Preguntar que día desea reservar.") {
@@ -258,10 +266,15 @@ async function proceedChat(userInputText = "") {
         botMessage = "Creando la reserva en la base de datos...";
         await reservarHabitacion(habitacionElegida.id);
         nextElementId = currentElement.outgoing[0]?.target;
-        // No user input expected immediately here, it's a processing step
-        // The result will be handled in handleUserInput after the "search" is "done"
-        // For a real async operation, you'd show a loading state here and then proceed.
-        nextElementId = currentElement.outgoing[0]?.target; // Assuming a direct path to the next gateway/task
+      } else if (currentElement.name === "Devuelve la reserva confirmada") {
+        botMessage = `📕 Confirmada la reserva de la habitacion nro ${habitacionElegida.id} con descripcion "${habitacionElegida.descripcion}"`;
+        nextElementId = currentElement.outgoing[0]?.target;
+      } else if (currentElement.name === "Saluda") {
+        botMessage = `Muchas gracias por comunicarse. 👋`;
+        nextElementId = currentElement.outgoing[0]?.target;
+      } else if (currentElement.name === "Cancelar la reserva") {
+        botMessage = `⚠️ Reserva cancelada. Muchas gracias por comunicarse.`;
+        nextElementId = currentElement.outgoing[0]?.target;
       } else {
         // For other tasks, simply proceed automatically
         nextElementId = currentElement.outgoing[0]?.target;
@@ -269,7 +282,13 @@ async function proceedChat(userInputText = "") {
       break;
 
     case "exclusiveGateway":
-      botMessage = `Estamos en una decisión en "${currentElement.name}".`;
+      let respuesta;
+      if (currentElement.name === "Intencion de usuario") {
+        respuesta = "Usted quiere reservar una habitacion?";
+      } else {
+        respuesta = currentElement.name;
+      }
+      botMessage = `${respuesta}. `;
       expectsUserInput = true;
       choices = currentElement.outgoing
         .map((flow) => flow.name.toLowerCase())
