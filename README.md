@@ -1,4 +1,4 @@
-# Trabajo integrador programacion 1
+# Trabajo integrador Organizacion empresarial
 
 Comision 9
 Integrantes:
