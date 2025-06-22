@@ -55,7 +55,7 @@
       <bpmn:incoming>Flow_174ff3h</bpmn:incoming>
       <bpmn:outgoing>Flow_0v3eb2j</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="Activity_12sknjh" name="Preguntar que día desea reservar.">
+    <bpmn:task id="Activity_12sknjh" name="Preguntar que habitación desea reservar.">
       <bpmn:incoming>Flow_08e8o8s</bpmn:incoming>
       <bpmn:incoming>Flow_1k46nl5</bpmn:incoming>
       <bpmn:outgoing>Flow_0f16hfs</bpmn:outgoing>
