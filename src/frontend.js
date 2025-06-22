@@ -249,6 +249,12 @@ async function proceedChat(userInputText = "") {
                 .join("")}
             </ul>`;
         nextElementId = currentElement.outgoing[0]?.target;
+      } else if (
+        currentElement.name ===
+        "Mostrar datos de reserva y preguntar si desea cancelar"
+      ) {
+        botMessage = `⚠️ Tu habitacion reservada es la nro ${habitacionElegida.id} con descripcion "${habitacionElegida.descripcion}". Esta seguro que desea cancelar?`;
+        nextElementId = currentElement.outgoing[0]?.target;
       } else if (currentElement.name === "Quiere reservar?") {
         botMessage = `
           Bienvenido/a a la app de reserva de habitaciones.
