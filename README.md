@@ -35,6 +35,6 @@ Comando para ejecutar el proyecto
 npm run dev
 ```
 
-### ⚠️ Utilizar el proyecto ingresando al siguiente link
+### ⚠️ Utilizar el siguiente link para probar el proyecto.
 
-El servidor estará disponible en [http://localhost:3000](http://localhost:3000)
+El proyecto estará disponible en este link [http://localhost:3000](http://localhost:3000)
