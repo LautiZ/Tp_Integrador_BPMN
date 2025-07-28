@@ -1,6 +1,6 @@
 # Trabajo integrador Organizacion empresarial
 
-Comision 9
+Comision 9.
 Integrantes:
 
 - Lautaro Zullo
